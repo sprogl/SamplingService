@@ -1,0 +1,50 @@
+#!/bin/bash
+
+url="http://172.20.0.2"
+endpoint_add="/add"
+endpoint_sample="/sample10"
+cmd_add="add"
+cmd_sample="sample10"
+cmd_help="help"
+
+url_add="${url}${endpoint_add}"
+url_sample="${url}${endpoint_sample}"
+
+add () {
+    curl -X POST -H "Content-Type: application/json" -d "{ \"number\" : ${1} }" $url_add
+    echo
+}
+
+sample () {
+    curl $url_sample
+    echo
+}
+
+help () {
+    echo "
+Usage:
+
+        client <command> [argument]
+
+The commands are:
+
+        add         add a number to the sample pool
+        sample10    return 10 random sample in json format
+        help        show usage guide
+    "
+}
+
+case $1 in
+    $cmd_sample)
+        sample
+        ;;
+    $cmd_add)
+        add $2
+        ;;
+    $cmd_help)
+        help
+        ;;
+    *)
+        echo "try 'client help' for more information"
+        ;;
+esac

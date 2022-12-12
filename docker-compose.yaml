@@ -1,0 +1,31 @@
+version: "3.3"
+networks:
+  dockernet:
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
+services:
+  sservice:
+    image: st1991/simple-service:latest
+    restart: always
+    environment:
+      - DB_USER=user
+      - DB_PASSWORD=userpassword
+      - DB_DATABASE=mdatabase
+      - DB_ADDR=172.20.0.3
+      - DB_PORT=27017
+    networks:
+      dockernet:
+        ipv4_address: 172.20.0.2
+  database:
+    image: bitnami/mongodb:latest
+    restart: always
+    environment:
+      - MONGODB_SYSTEM_LOG_VERBOSITY=3
+      - MONGODB_ROOT_PASSWORD=somecomplicatedpassword
+      - MONGODB_USERNAME=user
+      - MONGODB_PASSWORD=userpassword
+      - MONGODB_DATABASE=mdatabase
+    networks:
+      dockernet:
+        ipv4_address: 172.20.0.3
