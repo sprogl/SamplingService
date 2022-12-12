@@ -6,7 +6,7 @@ networks:
         - subnet: 172.20.0.0/24
 services:
   sservice:
-    image: st1991/simple-service:latest
+    image: st1991/sampling-service:latest
     restart: always
     environment:
       - DB_USER=user
