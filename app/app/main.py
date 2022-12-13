@@ -1,5 +1,7 @@
 from flask import Flask, request
-import DBCall
+import app.core.database as DBCall
+
+DBCall.init()
 
 app = Flask(__name__)
 

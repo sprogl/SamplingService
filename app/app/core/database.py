@@ -21,7 +21,7 @@ Query_Add = f"""INSERT INTO {Table_name} VALUES (
 );"""
 Query_Clear = f"DROP TABLE {Table_name};\n{Query_Initial}"
 
-logging.basicConfig(filename='/var/log/db.log', encoding='utf-8', level=logging.DEBUG)
+logging.basicConfig(filename='/var/log/app/database.log', encoding='utf-8', level=logging.DEBUG)
 
 try:
   conn = psycopg2.connect(f"dbname='{DB_database}' user='{DB_user}' host='{DB_addr}' password='{DB_pass}'")
@@ -93,5 +93,3 @@ def random_sample10():
     return sample(indices)
   else:
     return []
-
-init()

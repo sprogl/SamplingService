@@ -15,9 +15,8 @@ services:
       DB_ADDR: 172.20.0.3
       DB_PORT: 5432
       TABLE_NAME: pool
-      PGDATA: /var/log
     volumes:
-      - ./log:/var/log
+      - ./log:/var/log/app
     networks:
       dockernet:
         ipv4_address: 172.20.0.2
