@@ -9,23 +9,36 @@ services:
     image: st1991/sampling-service:latest
     restart: always
     environment:
-      - DB_USER=user
-      - DB_PASSWORD=userpassword
-      - DB_DATABASE=mdatabase
-      - DB_ADDR=172.20.0.3
-      - DB_PORT=27017
+      DB_USER: someusername
+      DB_PASSWORD: somecomplicatedpassword
+      DB_DATABASE: mdatabase
+      DB_ADDR: 172.20.0.3
+      DB_PORT: 5432
+      TABLE_NAME: pool
+      PGDATA: /var/log
+    volumes:
+      - ./log:/var/log
     networks:
       dockernet:
         ipv4_address: 172.20.0.2
-  database:
-    image: bitnami/mongodb:latest
+  postgres:
+    image: postgres:alpine
     restart: always
     environment:
-      - MONGODB_SYSTEM_LOG_VERBOSITY=3
-      - MONGODB_ROOT_PASSWORD=somecomplicatedpassword
-      - MONGODB_USERNAME=user
-      - MONGODB_PASSWORD=userpassword
-      - MONGODB_DATABASE=mdatabase
+      POSTGRES_USER: someusername
+      POSTGRES_PASSWORD: somecomplicatedpassword
+      POSTGRES_DB: mdatabase
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - ./data:/var/lib/postgresql/data
     networks:
       dockernet:
         ipv4_address: 172.20.0.3
+  dbadmin:
+    image: adminer:latest
+    restart: always
+    environment:
+      ADMINER_DEFAULT_SERVER: 172.20.0.3
+    networks:
+      dockernet:
+        ipv4_address: 172.20.0.4

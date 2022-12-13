@@ -13,8 +13,7 @@ def add_post():
     if list(req.keys()) == ['number']:
       input = req['number']
       if isinstance(input, int):
-        success = DBCall.add_to_DB(input)
-        if success:
+        if DBCall.add(input):
           return 'added!', 200
         else:
           return 'duplicate number!', 200
@@ -27,21 +26,20 @@ def add_post():
   
 @app.route("/sample10", methods=['GET'])
 def sample10():
-  output = DBCall.sample()
+  output = DBCall.random_sample10()
   if output:
     return '{{ "success" : True, "samples" : {} }}'.format(output)
   else:
     return '{ "success" : False, "samples" : [] }'
 
-@app.route("/state", methods=['GET'])
-def state():
-  count, pool_list = DBCall.state()
-  return '{{ "len" : {0}, "samples" : {1} }}'.format(count, pool_list)
-
 @app.route("/clear", methods=['GET'])
 def clear():
-  DBCall.clear_DB()
-  return '{ "success" : True }'
+  if DBCall.clear():
+    return '{ "success" : True }'
+  else:
+    return '{ "success" : False }'
 
 if __name__ == "__main__":
   app.run(host='0.0.0.0', debug=False, port=80)
+  DBCall.cur.close()
+  DBCall.conn.close()

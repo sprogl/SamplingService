@@ -3,6 +3,8 @@
 echo '###################### building image ######################'
 docker build -t st1991/sampling-service:latest .
 echo '###################### loading containers ######################'
+mkdir log
+touch ./log/db.log
 docker-compose up -d
 sleep 5
 echo '###################### testing ######################'
