@@ -1,10 +1,8 @@
 #!/bin/bash
 
 echo '###################### building image ######################'
-docker build -t st1991/sampling-service:latest .
+docker build -t st1991/sampling-service:flask .
 echo '###################### loading containers ######################'
-mkdir log
-touch ./log/db.log
 docker-compose up -d
 sleep 5
 echo '###################### testing ######################'
